@@ -10,14 +10,14 @@ from openpmd_updater.transforms import ITransform
 import numpy as np
 
 
-class ExtensionString(ITransform):
+class Version(ITransform):
     """
-    Transforms an extension ID to a string attribute.
+    Transforms the openPMD version.
 
     openPMD standard: 1.*.* -> 2.0.0
 
     Related openPMD-standard issues:
-        https://github.com/openPMD/openPMD-standard/issues/151
+        https://github.com/openPMD/openPMD-standard/projects/3
     """
     
     def __init__(self, backend):
@@ -28,7 +28,7 @@ class ExtensionString(ITransform):
     @staticmethod
     def name(self):
         """Name and description of the transformation"""
-        return "extensionID", "replace the extensionID bitmask with a string list"
+        return "version", "replace openPMD version identifier with new version"
 
     @property
     @staticmethod
@@ -47,20 +47,6 @@ class ExtensionString(ITransform):
         if not in_place:
             raise NotImplementedError("Only in-place transformation implemented!")
 
-        ext_list = {"ED-PIC": np.uint32(1)}
-
         fb.cd(None)
-        extensionID = fb.get_attr("openPMDextension")
-        fb.delete("openPMDextension")
-        
-        enabled_extensions = []
-        enabledExtMask = 0
-        for extension, bitmask in ext_list.items():
-            # This uses a bitmask to identify activated extensions
-            if (bitmask & extensionIDs) == bitmask:
-                enabled_extensions.append(extension)
-        
-        fb.add_attr(
-            "openPMDextension",
-            np.string_(";".join(enabled_extensions))
-        )
+        fb.delete("openPMD")
+        fb.add_attr("openPMD", np.string_(self.to_version))
