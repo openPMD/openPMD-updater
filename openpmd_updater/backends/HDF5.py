@@ -5,12 +5,11 @@ Copyright 2018 openPMD contributors
 Authors: Axel Huebl
 License: ISC
 """
-
-import IBackend from openPMD_updater.backends
+from openpmd_updater.backends.IBackend import IBackend
 import packaging.version
 try:
     import h5py as h5
-except
+except:
     h5 = None
 
 
@@ -22,18 +21,18 @@ class HDF5(IBackend):
         if h5 is None:
             raise RuntimeError("h5py is not installed!")
 
-        if can_handle(filename):
-            self.fh = h5.File(filename 'rw')
-            self.pwd = fh["/"]
+        if self.can_handle(filename):
+            self.fh = h5.File(filename, 'r+')
+            self.pwd = self.fh["/"]
         else:
             raise RuntimeError("HDF5 backend can not open non-HDF5 files!")
 
     @staticmethod
-    def can_handle(self, filename):
+    def can_handle(filename):
         """Check if filename is a HDF5 file."""
         signature = b'\x89HDF\r\n\x1a\n'
         try:
-            with open(fn, 'rb') as f:
+            with open(filename, 'rb') as f:
                 header = f.read(8)
                 return header == signature
         except:
@@ -42,7 +41,8 @@ class HDF5(IBackend):
     @property
     def version(self):
         """Return openPMD standard version of the file."""
-        return packaging.version.parse(self.hf.attrs["openPMD"])
+        ver_string = self.fh.attrs["openPMD"].decode()
+        return packaging.version.parse(ver_string)
 
     def cd(self, path):
         """Change current directory in file."""
@@ -84,7 +84,7 @@ class HDF5(IBackend):
             self.delete(old_path)
         else:
             NotImplementedError("Move is not implemented for "
-                                "'{0}' at '{1}'!".format(type(obj), old_path)
+                                "'{0}' at '{1}'!".format(type(obj), old_path))
 
     def delete(self, path):
         """Remove a group, attribute or dataset"""

@@ -5,20 +5,20 @@ Copyright 2018 openPMD contributors
 Authors: Axel Huebl
 License: ISC
 """
+from abc import abstractmethod
+
 
 class IBackend(object):
     """An I/O file format backend.
     Used to access and modify existing files with openPMD markup.
     """
     
-    @abstractmethod
-    def __init__(self, filename):
-        """Open a file"""
-        raise NotImplementedError("File opening not implemented!")
+    def __init__(self):
+        pass
 
     @staticmethod
     @abstractmethod
-    def can_handle(self, filename):
+    def can_handle(filename):
         """Check if a backend can handle a file."""
         raise NotImplementedError("File handling check not implemented!")
 
