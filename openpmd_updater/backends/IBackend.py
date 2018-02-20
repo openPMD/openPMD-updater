@@ -16,15 +16,27 @@ class IBackend(object):
         """Open a file"""
         raise NotImplementedError("File opening not implemented!")
 
+    @staticmethod
     @abstractmethod
     def can_handle(self, filename):
         """Check if a backend can handle a file."""
         raise NotImplementedError("File handling check not implemented!")
 
+    @property
     @abstractmethod
-    def cd(self, filename):
+    def version(self):
+        """Return openPMD standard version of the file."""
+        raise NotImplementedError("Version check not implemented!")
+
+    @abstractmethod
+    def cd(self, path):
         """Change current directory in file."""
         raise NotImplementedError("Directory change not implemented!")
+
+    @abstractmethod
+    def pwd(self, path):
+        """Return current directory in file."""
+        raise NotImplementedError("Directory pwd not implemented!")
 
     @abstractmethod    
     def list_groups(self, path):

@@ -7,6 +7,7 @@ License: ISC
 """
 
 import IBackend from openPMD_updater.backends
+import packaging.version
 try:
     import h5py as h5
 except
@@ -27,6 +28,7 @@ class HDF5(IBackend):
         else:
             raise RuntimeError("HDF5 backend can not open non-HDF5 files!")
 
+    @staticmethod
     def can_handle(self, filename):
         """Check if filename is a HDF5 file."""
         signature = b'\x89HDF\r\n\x1a\n'
@@ -37,12 +39,21 @@ class HDF5(IBackend):
         except:
             return False
 
+    @property
+    def version(self):
+        """Return openPMD standard version of the file."""
+        return packaging.version.parse(self.hf.attrs["openPMD"])
+
     def cd(self, path):
         """Change current directory in file."""
         if path is None:
             self.pwd = self.fh["/"]
         else:
             self.pwd = self.pwd[path]
+
+    def pwd(self, path):
+        """Return current directory in file."""
+        self.pwd.name
 
     def list_groups(self, path):
         """Return a list of groups in a path"""
