@@ -28,6 +28,9 @@ Choose *one* of the install methods below to get started:
 git clone https://github.com/openPMD/openPMD-updater.git
 cd openPMD-updater
 
+# install dependencies
+pip install -r requirements.txt
+
 # optional: append --user
 python setup.py install
 ```
@@ -62,4 +65,15 @@ nosetests tests/test_backend_h5.py
 
 # manual
 python tests/test_backend_h5.py
+```
+
+*note*: this changes your `example_files/1_1_0/structure.h5` files in-place.
+`git checkout` it for a reset or do a comparison:
+
+```bash
+h5diff -c example_files/1_1_0/structure.h5.bak example_files/1_1_0/structure.h5
+    attribute: <openPMD of </>> and <openPMD of </>>
+    35 differences found
+    Not comparable: <openPMDextension> is of class H5T_INTEGER and <openPMDextension> is of class H5T_STRING
+    # ...
 ```
