@@ -79,14 +79,14 @@ class HDF5(IBackend):
         """Remove a group, attribute or dataset"""
         del self.pwd[path]
 
-    def add_group(self, path)
+    def add_group(self, path):
         """Add a new group at path"""
         self.pwd.create_group[path]
 
-    def add_attr(self, path, value)
+    def add_attr(self, path, value):
         """Add a new attribute at path"""
         self.pwd.attrs[path] = value
 
-    def get_attr(self, path)
+    def get_attr(self, path):
         """Read an attribute"""
         return self.pwd.attrs[path]
