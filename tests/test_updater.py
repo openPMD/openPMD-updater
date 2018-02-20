@@ -20,7 +20,7 @@ class Test_Updater(unittest.TestCase):
         """
         filename = "example_files/1_1_0/structure.h5"
 
-        up = Updater(filename, True)
+        up = Updater(filename, verbose=True)
 
         up.update()
 

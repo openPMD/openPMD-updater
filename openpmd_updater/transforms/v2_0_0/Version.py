@@ -19,28 +19,19 @@ class Version(ITransform):
     Related openPMD-standard issues:
         https://github.com/openPMD/openPMD-standard/projects/3
     """
-    
+
+    """Name and description of the transformation"""
+    name = "version", "replace openPMD version identifier with new version"
+
+    """Minimum openPMD standard version that is supported by this transformation"""
+    min_version = "1.0.0"
+
+    """openPMD standard version is fulfulled by this transformation"""
+    to_version = "2.0.0"
+
     def __init__(self, backend):
         """Open a file"""
         self.fb = backend
-
-    @property
-    @staticmethod
-    def name(self):
-        """Name and description of the transformation"""
-        return "version", "replace openPMD version identifier with new version"
-
-    @property
-    @staticmethod
-    def min_version(self):
-        """Minimum openPMD standard version that is supported by this transformation"""
-        return "1.0.0"
-
-    @property
-    @staticmethod
-    def to_version(self):
-        """openPMD standard version is fulfulled by this transformation"""
-        return "2.0.0"
 
     def transform(self, in_place=True):
         """Perform transformation"""

@@ -18,24 +18,18 @@ class ITransform(object):
         raise NotImplementedError("File opening not implemented!")
 
     @property
-    @staticmethod
-    @abstractmethod
-    def name(self):
+    def name():
         """Name and description of the transformation"""
         raise NotImplementedError("Name and description not implemented!")
 
     @property
-    @staticmethod
-    @abstractmethod
-    def min_version(self):
+    def min_version():
         """Minimum openPMD standard version that is supported by this transformation"""
         raise NotImplementedError("Minimum supported openPMD standard version "
                                   "of this transformation not implemented!")
 
     @property
-    @staticmethod
-    @abstractmethod
-    def to_version(self):
+    def to_version():
         """openPMD standard version is fulfulled by this transformation"""
         raise NotImplementedError("Targeted openPMD standard version of "
                                   "this transformation not implemented!")

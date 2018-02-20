@@ -72,7 +72,9 @@ class Updater(object):
                         self.fb.cd(None)
                         next_transform = t(self.fb)
                         if self.verbose:
-                            print("[Updater] Transform: {0}".format(t.name))
+                            name, desc = t.name
+                            print("[Updater] Transform {0}: "
+                                  "{1}".format(name, desc))
                         next_transform.transform(in_place)
                     file_version = packaging.version.parse(new_version)
 

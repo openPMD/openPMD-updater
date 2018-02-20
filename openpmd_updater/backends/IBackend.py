@@ -12,7 +12,7 @@ class IBackend(object):
     """An I/O file format backend.
     Used to access and modify existing files with openPMD markup.
     """
-    
+
     def __init__(self):
         pass
 
