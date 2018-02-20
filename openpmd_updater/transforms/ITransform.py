@@ -5,6 +5,8 @@ Copyright 2018 openPMD contributors
 Authors: Axel Huebl
 License: ISC
 """
+from abc import abstractmethod
+
 
 class ITransform(object):
     """Transform an openPMD file from one standard version to another.

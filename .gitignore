@@ -3,6 +3,7 @@ build/
 dist/
 *.egg-info/
 __pycache__
+*.pyc
 
 # conda
 conda_recipe/linux-64/

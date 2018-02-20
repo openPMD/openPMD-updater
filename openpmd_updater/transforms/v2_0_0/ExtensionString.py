@@ -6,18 +6,18 @@ Authors: Axel Huebl
 License: ISC
 """
 
-from openpmd_updater.transforms import ITransform
+from openpmd_updater.transforms.ITransform import ITransform
 import numpy as np
 
 
-class Version(ITransform):
+class ExtensionString(ITransform):
     """
-    Transforms the openPMD version.
+    Transforms an extension ID to a string attribute.
 
     openPMD standard: 1.*.* -> 2.0.0
 
     Related openPMD-standard issues:
-        https://github.com/openPMD/openPMD-standard/projects/3
+        https://github.com/openPMD/openPMD-standard/issues/151
     """
     
     def __init__(self, backend):
@@ -28,7 +28,7 @@ class Version(ITransform):
     @staticmethod
     def name(self):
         """Name and description of the transformation"""
-        return "version", "replace openPMD version identifier with new version"
+        return "extensionID", "replace the extensionID bitmask with a string list"
 
     @property
     @staticmethod
@@ -47,6 +47,20 @@ class Version(ITransform):
         if not in_place:
             raise NotImplementedError("Only in-place transformation implemented!")
 
-        fb.cd(None)
-        fb.delete("openPMD")
-        fb.add_attr("openPMD", np.string_(self.to_version))
+        ext_list = {"ED-PIC": np.uint32(1)}
+
+        self.fb.cd(None)
+        extensionIDs = self.fb.get_attr("openPMDextension")
+        self.fb.del_attr("openPMDextension")
+        
+        enabled_extensions = []
+        enabledExtMask = 0
+        for extension, bitmask in ext_list.items():
+            # This uses a bitmask to identify activated extensions
+            if (bitmask & extensionIDs) == bitmask:
+                enabled_extensions.append(extension)
+        
+        self.fb.add_attr(
+            "openPMDextension",
+            np.string_(";".join(enabled_extensions))
+        )
