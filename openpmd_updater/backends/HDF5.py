@@ -86,7 +86,15 @@ class HDF5(IBackend):
             NotImplementedError("Move is not implemented for "
                                 "'{0}' at '{1}'!".format(type(obj), old_path))
 
-    def delete(self, path):
+    def del_goup(self, path):
+        """Remove a group, attribute or dataset"""
+        del self.pwd[path]
+
+    def del_attr(self, path):
+        """Remove a group, attribute or dataset"""
+        del self.pwd.attrs[path]
+
+    def del_data(self, path):
         """Remove a group, attribute or dataset"""
         del self.pwd[path]
 

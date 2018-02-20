@@ -58,10 +58,20 @@ class IBackend(object):
         """Move (rename) a group, attribute or dataset"""
         raise NotImplementedError("Move (rename) not implemented!")
 
-    @abstractmethod    
-    def delete(self, path):
+    @abstractmethod
+    def del_group(self, path):
         """Remove a group, attribute or dataset"""
-        raise NotImplementedError("Deleting not implemented!")
+        raise NotImplementedError("Deleting group not implemented!")
+
+    @abstractmethod
+    def del_attr(self, path):
+        """Remove a group, attribute or dataset"""
+        raise NotImplementedError("Deleting atribute not implemented!")
+
+    @abstractmethod
+    def del_data(self, path):
+        """Remove a group, attribute or dataset"""
+        raise NotImplementedError("Deleting data not implemented!")
 
     @abstractmethod
     def add_group(self, path):
