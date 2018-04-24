@@ -1,4 +1,4 @@
-packacking
+packaging
 numpy>=1.6.1
 python-dateutil>=2.3.0
 h5py>=2.0.0
