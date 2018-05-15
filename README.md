@@ -41,7 +41,10 @@ python setup.py install
 
 We provide the command-line tools for individual files:
 
-*TBD*
+```bash
+# optional: append --backup
+openPMD_updater_h5 -i example.h5
+```
 
 ### Module
 
