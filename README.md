@@ -19,8 +19,8 @@ Updates are only supported to go *forward* to newer releases.
 **Developer perspective:** You only want to implement the latest version(s) of openPMD in order to reduce your development effort.
 You update timely to new openPMD versions and deprecate or remove support for previous openPMD versions.
 Now a user provides an openPMD file but the openPMD-standard version in it is too old compared to the standard implementation you rely on.
-As a Python application, just import the module and (after a confirmation) auto-update the user-given file.
-If you are not a python application, just reject the file gracefully with a note the version in the file is too old and point the user *here* to update their existing files.
+In a Python application, just import the module and (after a confirmation) auto-update the user-given file.
+If you are not in a python environment, just reject the file gracefully with a note the version in the file is too old and point the user *here* to update their existing files.
 
 **User perspective:** You are restoring "old" files from an archive and want to process it with a modern software that supports openPMD.
 This software might only implement recent versions of openPMD, has no auto-update functionality and rejects your files.
