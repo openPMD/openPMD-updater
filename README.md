@@ -1,16 +1,27 @@
 # openPMD Updater
 
-[![Build Status `master`](https://img.shields.io/travis/openPMD/openPMD-validator/master.svg?label=master)](https://travis-ci.org/openPMD/openPMD-updater/branches)
+[![Build Status `master`](https://img.shields.io/travis/openPMD/openPMD-updater/master.svg?label=master)](https://travis-ci.org/openPMD/openPMD-updater/branches)
 ![Supported Python Versions](https://img.shields.io/pypi/pyversions/openPMD-updater.svg)
 [![License](https://img.shields.io/badge/license-ISC-blue.svg)](https://opensource.org/licenses/ISC)
 
-*TBD*
+This repository contains scripts to update existing files to *newer versions of the openPMD standard*.
 
 
 ## Rationale
 
-*TBD*
+We want our community to be able to move fast without pulling up a long legacy code trail for old versions.
+We therefore motivate developers to always implement the latest stable version of the [openPMD standard](https://github.com/openPMD/openPMD-standard).
 
+At the same time, we want that existing user data can always be read.
+In order to achieve this, this repository provides a tool and modular library for lightweight meta-data updates.
+Updates are only supported to go *forward* to newer releases.
+
+**Developer perspective:** A user provides an openPMD file but the openPMD-standard version is too old for the implemented (up-to-date) reader.
+As a Python developers,just import the module and (after a confirmation) auto-update the user-given file.
+
+**User perspective:** You are restoring "old" files from an archive and want to process it with a modern software that supports openPMD.
+This software might only implement recent versions of openPMD, has no auto-update functionality and rejects your files.
+Just run the updater command-line tool to update your files manually, then load it in aforementioned software.
 
 ## Install
 
@@ -48,7 +59,7 @@ openPMD_updater_h5 -i example.h5
 
 ### Module
 
-Additionally, the validator tools can be used as *Python module* in your projects.
+Additionally, the updater tools can be used as *Python module* in your projects.
 This allows you to offer a file update to users that try to use your tool with old versions of the openPMD standard (but you might only support newer versions).
 
 ```python
