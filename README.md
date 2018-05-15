@@ -16,8 +16,10 @@ At the same time, we want that existing user data can always be read.
 In order to achieve this, this repository provides a tool and modular library for lightweight meta-data updates.
 Updates are only supported to go *forward* to newer releases.
 
-**Developer perspective:** A user provides an openPMD file but the openPMD-standard version is too old for the implemented (up-to-date) reader.
-As a Python developers,just import the module and (after a confirmation) auto-update the user-given file.
+**Developer perspective:** You only want to implement the latest version(s) of openPMD in order to reduce your development effort.
+You update timely to new openPMD versions and deprecate or remove support for previous openPMD versions.
+Now a user provides an openPMD file but the openPMD-standard version in it is too old compared to the standard implementation you rely on.
+As a Python developers, just import the module and (after a confirmation) auto-update the user-given file.
 
 **User perspective:** You are restoring "old" files from an archive and want to process it with a modern software that supports openPMD.
 This software might only implement recent versions of openPMD, has no auto-update functionality and rejects your files.
