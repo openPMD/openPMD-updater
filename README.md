@@ -51,7 +51,13 @@ openPMD_updater_h5 -i example.h5
 Additionally, the validator tools can be used as *Python module* in your projects.
 This allows you to offer a file update to users that try to use your tool with old versions of the openPMD standard (but you might only support newer versions).
 
-*TBD*
+```python
+from openpmd_updater.Updater import Updater
+
+updater = Updater("example.h5", verbose=False)
+updater.update(target_version="2.0.0", in_place=True)
+
+```
 
 ## Development
 
