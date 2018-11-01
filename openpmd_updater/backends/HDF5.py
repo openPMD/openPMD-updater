@@ -70,6 +70,16 @@ class HDF5(IBackend):
         cur_path = self.pwd[path]
         return list(filter(lambda x: type(cur_path[x]) is h5.Dataset, cur_path.keys()))
 
+    def is_group(self, path):
+        """Return if a path is a group"""
+        cur_path = self.pwd[path]
+        return type(cur_path) is h5.Group
+
+    def is_data(self, path):
+        """Return if a path is a dataset"""
+        cur_path = self.pwd[path]
+        return type(cur_path) is h5.Dataset
+
     def move(self, old_path, new_path):
         """Move (rename) a group, attribute or dataset"""
         if new_path == old_path:

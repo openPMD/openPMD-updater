@@ -54,6 +54,16 @@ class IBackend(object):
         raise NotImplementedError("Data listing not implemented!")
 
     @abstractmethod
+    def is_group(self, path):
+        """Return if a path is a group"""
+        raise NotImplementedError("Group check not implemented!")
+
+    @abstractmethod
+    def is_data(self, path):
+        """Return if a path is a dataset"""
+        raise NotImplementedError("Data check not implemented!")
+
+    @abstractmethod
     def move(self, old_path, new_path):
         """Move (rename) a group, attribute or dataset"""
         raise NotImplementedError("Move (rename) not implemented!")
@@ -64,12 +74,12 @@ class IBackend(object):
         raise NotImplementedError("Deleting group not implemented!")
 
     @abstractmethod
-    def del_attr(self, path):
+    def del_attr(self, name, path=None):
         """Remove a group, attribute or dataset"""
         raise NotImplementedError("Deleting atribute not implemented!")
 
     @abstractmethod
-    def del_data(self, path):
+    def del_data(self, name):
         """Remove a group, attribute or dataset"""
         raise NotImplementedError("Deleting data not implemented!")
 
@@ -79,11 +89,11 @@ class IBackend(object):
         raise NotImplementedError("Group adding not implemented!")
 
     @abstractmethod
-    def add_attr(self, path, value):
+    def add_attr(self, name, value, path=None):
         """Add a new attribute at path"""
         raise NotImplementedError("Attribute adding not implemented!")
 
     @abstractmethod
-    def get_attr(self, path):
+    def get_attr(self, name, path=None):
         """Read an attribute"""
         raise NotImplementedError("Attribute reading not implemented!")
