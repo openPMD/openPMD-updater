@@ -62,7 +62,8 @@ class HDF5(IBackend):
 
     def list_attrs(self, path):
         """Return a list of attributes on a path"""
-        return list(self.fh[path].attrs.keys())
+        cur_path = self.pwd[path]
+        return list(cur_path.attrs.keys())
 
     def list_data(self, path):
         """Return a list of datasets in a path"""
@@ -86,26 +87,32 @@ class HDF5(IBackend):
             NotImplementedError("Move is not implemented for "
                                 "'{0}' at '{1}'!".format(type(obj), old_path))
 
-    def del_goup(self, path):
+    def del_goup(self, name):
         """Remove a group, attribute or dataset"""
-        del self.pwd[path]
+        del self.pwd[name]
 
-    def del_attr(self, path):
+    def del_attr(self, name, path=None):
         """Remove a group, attribute or dataset"""
-        del self.pwd.attrs[path]
+        if path is None:
+            del self.pwd.attrs[name]
+        else:
+            del self.pwd[path].attrs[name]
 
-    def del_data(self, path):
+    def del_data(self, name):
         """Remove a group, attribute or dataset"""
-        del self.pwd[path]
+        del self.pwd[name]
 
     def add_group(self, path):
         """Add a new group at path"""
         self.pwd.create_group[path]
 
-    def add_attr(self, path, value):
+    def add_attr(self, name, value):
         """Add a new attribute at path"""
-        self.pwd.attrs[path] = value
+        self.pwd.attrs[name] = value
 
-    def get_attr(self, path):
+    def get_attr(self, name, path=None):
         """Read an attribute"""
-        return self.pwd.attrs[path]
+        if path is None:
+            return self.pwd.attrs[name]
+        else:
+            return self.pwd[path].attrs[name]
