@@ -106,9 +106,12 @@ class HDF5(IBackend):
         """Add a new group at path"""
         self.pwd.create_group[path]
 
-    def add_attr(self, name, value):
+    def add_attr(self, name, value, path=None):
         """Add a new attribute at path"""
-        self.pwd.attrs[name] = value
+        if path is None:
+            self.pwd.attrs[name] = value
+        else:
+            self.pwd[path].attrs[name] = value
 
     def get_attr(self, name, path=None):
         """Read an attribute"""
