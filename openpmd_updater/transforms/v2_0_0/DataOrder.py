@@ -7,7 +7,6 @@ License: ISC
 """
 
 from openpmd_updater.transforms.ITransform import ITransform
-import numpy as np
 
 
 class DataOrder(ITransform):
@@ -17,7 +16,7 @@ class DataOrder(ITransform):
     The order of attributes arises naturally from flattened out memory layout.
     Regarding previously stored `dataOrder='F'` attributes, the update needs to
     invert such attributes.
-    
+
     Affects the *base standard* attributes:
         - `axisLabels`
         - `gridSpacing`
@@ -67,11 +66,10 @@ class DataOrder(ITransform):
             raise NotImplementedError("Only in-place transformation implemented!")
 
         self.fb.cd(None)
-        basePath = "/data/"  # fixed in openPMD v1
         meshes_path = self.fb.get_attr("meshesPath").decode()
-        
+
         iterations = self.fb.list_groups("/data/")
-        
+
         for it in iterations:
             abs_meshes_path = "/data/" + str(it) + "/" + meshes_path
             #            vector/tensor                    and   scalar meshes
