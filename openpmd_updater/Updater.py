@@ -7,8 +7,8 @@ License: ISC
 """
 import packaging.version
 from openpmd_updater.backends.HDF5 import HDF5
-from openpmd_updater.transforms.v2_0_0 import DataOrder, \
-    ExtensionString, Version, ParticleBoundary
+from openpmd_updater.transforms.v2_0_0 import \
+    DataOrder, GridUnit, ParticleBoundary, ExtensionString, Version
 
 
 class Updater(object):
@@ -30,6 +30,7 @@ class Updater(object):
         self.updates = {
             "2.0.0" : [
                 DataOrder.DataOrder,  # must be before move of particleBoundary
+                GridUnit.GridUnit,
                 ParticleBoundary.ParticleBoundary,
                 ExtensionString.ExtensionString,
                 Version.Version  # must be last
