@@ -5,7 +5,6 @@ Copyright 2018 openPMD contributors
 Authors: Axel Huebl
 License: ISC
 """
-import packaging.version
 from openpmd_updater.Updater import Updater
 import sys, getopt, os.path
 
