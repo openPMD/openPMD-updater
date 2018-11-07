@@ -28,3 +28,13 @@ script:
   # execute actual scripts
   - python setup.py install
   - nosetests
+
+  # Test the CLI and validate with the updater
+  - git clone https://github.com/openPMD/openPMD-validator.git
+  - cd openPMD-validator ; python setup.py develop
+  # Create an openPMD 1.0.0 file
+  - openPMD_createExamples_h5
+  # Update it
+  - openPMD_updater_h5 -i example.h5
+  # Validate as an openPMD 2.0 file
+  - git checkout 2.0.X ; openPMD_check_h5 -i example.h5 --EDPIC
