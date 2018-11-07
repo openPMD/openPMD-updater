@@ -1,0 +1,30 @@
+language: python
+sudo: false
+
+python:
+  - "2.7"
+  - "3.4"
+  - "3.5"
+
+addons:
+  apt:
+    packages:
+      - libhdf5-serial-dev
+
+cache:
+  apt: true
+  directories:
+    - $HOME/.cache/pip
+
+install:
+  - pip install --upgrade pyflakes
+
+before_script:
+  # static code analysis
+  #   pyflakes: mainly warnings, unused code, etc.
+  - python -m pyflakes openpmd_updater
+
+script:
+  # execute actual scripts
+  - python setup.py install
+  - nosetests
