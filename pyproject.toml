@@ -20,7 +20,7 @@ dynamic = ["description"]
 dependencies = [
   "numpy >=1.23",
   "python-dateutil >=2.3.0",
-  "h5py>=2.0.0",
+  "h5py>=3.8",
   "packaging"
 ]
 requires-python = ">=3.10"
