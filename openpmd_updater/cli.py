@@ -7,11 +7,14 @@ License: ISC
 """
 
 from .Updater import Updater
+import pdb
+import traceback
+import sys
 import argparse
 
 
 def parse_args():
-    help_str: String = (
+    help_str = (
         "This is the openPMD updater HDF5 files.\n"
         + "It allows to update openPMD flavored files from openPMD standard {0} to {1}\n".format(
             111, 222
@@ -29,6 +32,11 @@ def parse_args():
     parser.add_argument(
         "-t", "--target", help="target version to update to", type=str, default="2.0.0"
     )
+    parser.add_argument(
+        "--pdb",
+        help="wrap call in try/except with pdb post_mortem debugger",
+        action="store_true",
+    )
 
     args = parser.parse_args()
     return args
@@ -36,10 +44,21 @@ def parse_args():
 
 def main():
     inputs = parse_args()
-    updater = Updater(inputs.file, inputs.verbose)
-    updater.update(inputs.target, not inputs.backup)
-    # return code: non-zero is Unix-style for errors occurred
-    # sys.exit(int(result_array[0]))
+    print(inputs)
+
+    if not inputs.pdb:
+        updater = Updater(inputs.file, inputs.verbose)
+        updater.update(inputs.target, not inputs.backup)
+        # return code: non-zero is Unix-style for errors occurred
+        # sys.exit(int(result_array[0]))
+    else:
+        try:
+            updater = Updater(inputs.file, inputs.verbose)
+            updater.update(inputs.target, not inputs.backup)
+        except:
+            extype, value, tb = sys.exc_info()
+            traceback.print_exc()
+            pdb.post_mortem(tb)
 
 
 if __name__ == "__main__":
