@@ -23,6 +23,7 @@ dependencies = [
   "h5py>=2.0.0",
   "packaging"
 ]
+requires-python = ">=3.10"
 
 [project.scripts]
 openPMD_updater_h5 = "openpmd_updater.cli:main"
