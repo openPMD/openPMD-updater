@@ -5,6 +5,7 @@ Copyright 2018 openPMD contributors
 Authors: Axel Huebl
 License: ISC
 """
+
 from abc import abstractmethod
 
 
@@ -38,7 +39,7 @@ class IBackend(object):
         """Return current directory in file."""
         raise NotImplementedError("Directory pwd not implemented!")
 
-    @abstractmethod    
+    @abstractmethod
     def list_groups(self, path):
         """Return a list of groups in a path"""
         raise NotImplementedError("Group listing not implemented!")

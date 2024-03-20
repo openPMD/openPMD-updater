@@ -6,7 +6,7 @@ Authors: Axel Huebl
 License: ISC
 """
 
-from openpmd_updater.transforms.ITransform import ITransform
+from ..ITransform import ITransform
 import numpy as np
 
 

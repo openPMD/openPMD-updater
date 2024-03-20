@@ -6,7 +6,7 @@ Authors: Axel Huebl, Remi Lehe
 License: ISC
 """
 
-from openpmd_updater.transforms.ITransform import ITransform
+from ..ITransform import ITransform
 import numpy as np
 
 
@@ -22,8 +22,10 @@ class ParticleBoundary(ITransform):
     """
 
     """Name and description of the transformation"""
-    name = "particleBoundary", \
-           "move the particleBoundary attribute from the mesh records to the species records"
+    name = (
+        "particleBoundary",
+        "move the particleBoundary attribute from the mesh records to the species records",
+    )
 
     """Minimum openPMD standard version that is supported by this transformation"""
     min_version = "1.0.0"

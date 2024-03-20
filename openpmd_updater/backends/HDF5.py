@@ -5,8 +5,10 @@ Copyright 2018 openPMD contributors
 Authors: Axel Huebl
 License: ISC
 """
-from openpmd_updater.backends.IBackend import IBackend
+
+from .IBackend import IBackend
 import packaging.version
+
 try:
     import h5py as h5
 except:
@@ -15,14 +17,14 @@ except:
 
 class HDF5(IBackend):
     """HDF5 File handling."""
-    
+
     def __init__(self, filename):
         """Open a HDF5 file"""
         if h5 is None:
             raise RuntimeError("h5py is not installed!")
 
         if self.can_handle(filename):
-            self.fh = h5.File(filename, 'r+')
+            self.fh = h5.File(filename, "r+")
             self.pwd = self.fh["/"]
         else:
             raise RuntimeError("HDF5 backend can not open non-HDF5 files!")
@@ -30,9 +32,9 @@ class HDF5(IBackend):
     @staticmethod
     def can_handle(filename):
         """Check if filename is a HDF5 file."""
-        signature = b'\x89HDF\r\n\x1a\n'
+        signature = b"\x89HDF\r\n\x1a\n"
         try:
-            with open(filename, 'rb') as f:
+            with open(filename, "rb") as f:
                 header = f.read(8)
                 return header == signature
         except:
@@ -94,8 +96,11 @@ class HDF5(IBackend):
             self.pwd.attrs[new_path] = self.pwd.attrs[old_path]
             self.delete(old_path)
         else:
-            NotImplementedError("Move is not implemented for "
-                                "'{0}' at '{1}'!".format(type(obj), old_path))
+            NotImplementedError(
+                "Move is not implemented for " "'{0}' at '{1}'!".format(
+                    type(obj), old_path
+                )
+            )
 
     def del_goup(self, name):
         """Remove a group, attribute or dataset"""

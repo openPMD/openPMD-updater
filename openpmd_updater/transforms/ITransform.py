@@ -5,13 +5,13 @@ Copyright 2018 openPMD contributors
 Authors: Axel Huebl
 License: ISC
 """
+
 from abc import abstractmethod
 
 
 class ITransform(object):
-    """Transform an openPMD file from one standard version to another.
-    """
-    
+    """Transform an openPMD file from one standard version to another."""
+
     @abstractmethod
     def __init__(self, backend):
         """Open a file"""
@@ -25,14 +25,18 @@ class ITransform(object):
     @property
     def min_version():
         """Minimum openPMD standard version that is supported by this transformation"""
-        raise NotImplementedError("Minimum supported openPMD standard version "
-                                  "of this transformation not implemented!")
+        raise NotImplementedError(
+            "Minimum supported openPMD standard version "
+            "of this transformation not implemented!"
+        )
 
     @property
     def to_version():
         """openPMD standard version is fulfulled by this transformation"""
-        raise NotImplementedError("Targeted openPMD standard version of "
-                                  "this transformation not implemented!")
+        raise NotImplementedError(
+            "Targeted openPMD standard version of "
+            "this transformation not implemented!"
+        )
 
     @abstractmethod
     def transform(self, in_place=True):
