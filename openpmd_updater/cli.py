@@ -43,18 +43,17 @@ def parse_args():
 
 
 def main():
-    inputs = parse_args()
-    print(inputs)
-
-    if not inputs.pdb:
-        updater = Updater(inputs.file, inputs.verbose)
-        updater.update(inputs.target, not inputs.backup)
+    args = parse_args()
+    
+    if not args.pdb:
+        updater = Updater(args.file, args.verbose)
+        updater.update(args.target, not args.backup)
         # return code: non-zero is Unix-style for errors occurred
         # sys.exit(int(result_array[0]))
     else:
         try:
-            updater = Updater(inputs.file, inputs.verbose)
-            updater.update(inputs.target, not inputs.backup)
+            updater = Updater(args.file, args.verbose)
+            updater.update(args.target, not args.backup)
         except:
             extype, value, tb = sys.exc_info()
             traceback.print_exc()
