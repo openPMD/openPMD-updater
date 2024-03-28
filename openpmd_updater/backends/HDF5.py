@@ -8,11 +8,7 @@ License: ISC
 
 from .IBackend import IBackend
 import packaging.version
-
-try:
-    import h5py as h5
-except:
-    h5 = None
+import h5py as h5
 
 
 class HDF5(IBackend):
@@ -20,8 +16,6 @@ class HDF5(IBackend):
 
     def __init__(self, filename):
         """Open a HDF5 file"""
-        if h5 is None:
-            raise RuntimeError("h5py is not installed!")
 
         if self.can_handle(filename):
             self.fh = h5.File(filename, "r+")
