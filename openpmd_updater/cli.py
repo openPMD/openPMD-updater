@@ -44,7 +44,7 @@ def parse_args():
 
 def main():
     args = parse_args()
-    
+
     if not args.pdb:
         updater = Updater(args.file, args.verbose)
         updater.update(args.target, not args.backup)

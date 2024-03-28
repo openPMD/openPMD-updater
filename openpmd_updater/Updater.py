@@ -50,7 +50,7 @@ class Updater(object):
 
         for b in self.backends:
             if self.verbose:
-                print("[Updater] Trying file format {0}".format(type(b)))
+                print("[Updater] Trying file format {0}".format(b.__name__))
             if b.can_handle(filename):
                 self.fb = b(filename)
                 break
@@ -72,6 +72,10 @@ class Updater(object):
                     " ".join(self.updates.keys())
                 )
             )
+
+        if file_version == packaging.version.parse(new_version):
+            print("[Updater] File is at already at the requested version!")
+            return
 
         # select proper update depending on initial version
         #   note: multiple updates over intermediate openPMD standard releases are possible
