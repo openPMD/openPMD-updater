@@ -5,7 +5,11 @@ build-backend = "flit_core.buildapi"
 [project]
 name = "openpmd_updater"
 version = "1.0.0"
-authors = []
+authors = [
+  {name = "Axel Huebl", email = "axelbuebl@lbl.gov"},
+  {name = "Sajid Ali", email = "sasyed@fnal.gov"},
+  {name = "Remi Lehe"},
+]
 readme = "README.md"
 classifiers = [
   # "Development Status :: 4 - Beta",
