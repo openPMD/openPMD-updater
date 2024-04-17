@@ -34,7 +34,7 @@ openPMD_updater_h5 = "openpmd_updater.cli:main"
 
 [project.optional-dependencies]
 test = [
-  "nose"
+  "pytest", "pytest-order"
 ]
 
 [project.urls]
