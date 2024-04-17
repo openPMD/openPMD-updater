@@ -6,7 +6,7 @@ Authors: Axel Huebl, Remi Lehe
 License: ISC
 """
 
-from openpmd_updater.transforms.ITransform import ITransform
+from ..ITransform import ITransform
 import numpy as np
 
 
@@ -22,8 +22,10 @@ class ParticleBoundary(ITransform):
     """
 
     """Name and description of the transformation"""
-    name = "particleBoundary", \
-           "move the particleBoundary attribute from the mesh records to the species records"
+    name = (
+        "particleBoundary",
+        "move the particleBoundary attribute from the mesh records to the species records",
+    )
 
     """Minimum openPMD standard version that is supported by this transformation"""
     min_version = "1.0.0"
@@ -40,10 +42,24 @@ class ParticleBoundary(ITransform):
         if not in_place:
             raise NotImplementedError("Only in-place transformation implemented!")
 
-        self.fb.cd(None)
-        basePath = "/data/"  # fixed in openPMD v1
-        meshes_path = self.fb.get_attr("meshesPath").decode()
-        particles_path = self.fb.get_attr("particlesPath").decode()
+        try:
+            self.fb.cd(None)
+            basePath = "/data/"  # fixed in openPMD v1
+            meshes_path = self.fb.get_attr("meshesPath").decode()
+        except KeyError:
+            print(
+                "[ParticleBoundary transform] Input file has no 'meshesPath' attr, skipping transform! "
+            )
+            return
+
+        try:
+            particles_path = self.fb.get_attr("particlesPath").decode()
+        except KeyError:
+            print(
+                "[ParticleBoundary transform] Input file has no 'particlesPath' attr, skipping transform! "
+            )
+            return
+
         iterations = self.fb.list_groups("/data/")
 
         for it in iterations:

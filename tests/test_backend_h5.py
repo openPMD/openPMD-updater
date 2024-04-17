@@ -1,42 +1,25 @@
 """
 This file is part of the openPMD-updater.
 
-Copyright 2018 openPMD contributors
-Authors: Axel Huebl
+Copyright 2024 openPMD contributors
+Authors: Axel Huebl, Sajid Ali
 License: ISC
 """
-import unittest
+
+import pytest
+import os
 import packaging.version
 from openpmd_updater.backends.HDF5 import HDF5
 
+@pytest.mark.order("first")
+def test_can_handle(get_file):
+    filepath = get_file
+    print(filepath)
+    assert os.path.exists(filepath) == True
+    assert HDF5.can_handle(filepath)
 
-class Test_BackendHDF5(unittest.TestCase):
-    """
-    ...
-    """
-    def test_can_handle(self):
-        """
-        ...
-        """
-        self.assertEqual(
-            HDF5.can_handle("example_files/1_1_0/structure.h5"),
-            True
-        )
+@pytest.mark.order("second")
+def test_read(get_file):
+    fb = HDF5(get_file)
 
-    def test_read(self):
-        """
-        ...
-        """
-        filename = "example_files/1_1_0/structure.h5"
-
-        fb = HDF5(filename)
-
-        self.assertEqual(
-            fb.version == packaging.version.parse("1.1.0"),
-            True
-        )
-
-
-if __name__ == '__main__':
-    unittest.main()
-
+    assert fb.version == packaging.version.parse("1.1.0")

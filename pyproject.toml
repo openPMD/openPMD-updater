@@ -1,0 +1,41 @@
+[build-system]
+requires = ["flit_core >=3.2,<4"]
+build-backend = "flit_core.buildapi"
+
+[project]
+name = "openpmd_updater"
+version = "1.0.0"
+authors = [
+  {name = "Axel Huebl", email = "axelbuebl@lbl.gov"},
+  {name = "Sajid Ali", email = "sasyed@fnal.gov"},
+  {name = "Remi Lehe"},
+]
+readme = "README.md"
+classifiers = [
+  # "Development Status :: 4 - Beta",
+  "Environment :: Console",
+  "Intended Audience :: Science/Research",
+  "License :: OSI Approved :: ISC License (ISCL)",
+  "Operating System :: OS Independent",
+  "Programming Language :: Python :: 3",
+  "Topic :: Scientific/Engineering :: Physics"
+]
+dynamic = ["description"]
+dependencies = [
+  "numpy >=1.23",
+  "python-dateutil >=2.3.0",
+  "h5py>=3.8",
+  "packaging"
+]
+requires-python = ">=3.10"
+
+[project.scripts]
+openPMD_updater_h5 = "openpmd_updater.cli:main"
+
+[project.optional-dependencies]
+test = [
+  "requests", "pytest", "pytest-order"
+]
+
+[project.urls]
+Home = "https://github.com/openPMD/openPMD-updater"

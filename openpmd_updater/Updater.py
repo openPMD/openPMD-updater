@@ -5,10 +5,16 @@ Copyright 2018 openPMD contributors
 Authors: Axel Huebl
 License: ISC
 """
+
 import packaging.version
-from openpmd_updater.backends.HDF5 import HDF5
-from openpmd_updater.transforms.v2_0_0 import \
-    DataOrder, GridUnit, ParticleBoundary, ExtensionString, Version
+from .backends.HDF5 import HDF5
+from .transforms.v2_0_0 import (
+    DataOrder,
+    GridUnit,
+    ParticleBoundary,
+    ExtensionString,
+    Version,
+)
 
 
 class Updater(object):
@@ -18,9 +24,9 @@ class Updater(object):
     (see: openpmd_updater.backend.IBackend) for a given file and applies a set
     of transformations (see: openpmd_updater.transforms.ITransform) on it.
     """
+
     def __init__(self, filename, verbose=False):
-        """Open a file with suiteable file format backend.
-        """
+        """Open a file with suiteable file format backend."""
         # supported file format backends
         self.backends = [HDF5]
 
@@ -28,12 +34,12 @@ class Updater(object):
         #   keys: "to_version" of targeted openPMD standard version
         #   values: ordered list of transforms
         self.updates = {
-            "2.0.0" : [
+            "2.0.0": [
                 DataOrder.DataOrder,  # must be before move of particleBoundary
                 GridUnit.GridUnit,
                 ParticleBoundary.ParticleBoundary,
                 ExtensionString.ExtensionString,
-                Version.Version  # must be last
+                Version.Version,  # must be last
             ]
         }
 
@@ -44,13 +50,14 @@ class Updater(object):
 
         for b in self.backends:
             if self.verbose:
-                print("[Updater] Trying file format {0}".format(type(b)))
+                print("[Updater] Trying file format {0}".format(b.__name__))
             if b.can_handle(filename):
                 self.fb = b(filename)
                 break
         if self.fb is None:
-            raise RuntimeError("No matching file format backend found for "
-                               "{0}!".format(filename))
+            raise RuntimeError(
+                "No matching file format backend found for " "{0}!".format(filename)
+            )
 
     def update(self, new_version="2.0.0", in_place=True):
         """Perform update to new version of the openPMD standard"""
@@ -60,8 +67,15 @@ class Updater(object):
         # check if new version is known by the updater
         update_valid = False
         if new_version not in self.updates.keys():
-            raise RuntimeError("Only updates to openPMD standard(s) '{0}' are "
-                               "supported!".format(" ".join(self.updates.keys())))
+            raise RuntimeError(
+                "Only updates to openPMD standard(s) '{0}' are " "supported!".format(
+                    " ".join(self.updates.keys())
+                )
+            )
+
+        if file_version == packaging.version.parse(new_version):
+            print("[Updater] File is at already at the requested version!")
+            return
 
         # select proper update depending on initial version
         #   note: multiple updates over intermediate openPMD standard releases are possible
@@ -70,18 +84,23 @@ class Updater(object):
                 if file_version <= packaging.version.parse("1.1.0"):
                     update_valid = True
                     if self.verbose:
-                        print("[Updater] Performing update from {0} to "
-                              "{1}".format(file_version, new_version))
+                        print(
+                            "[Updater] Performing update from {0} to " "{1}".format(
+                                file_version, new_version
+                            )
+                        )
                     for t in self.updates[new_version]:
                         self.fb.cd(None)
                         next_transform = t(self.fb)
                         if self.verbose:
                             name, desc = t.name
-                            print("[Updater] Transform {0}: "
-                                  "{1}".format(name, desc))
+                            print("[Updater] Transform {0}: " "{1}".format(name, desc))
                         next_transform.transform(in_place)
                     file_version = packaging.version.parse(new_version)
 
             if not update_valid:
-                raise RuntimeError("Unsupported openPMD standard '{0}' in file "
-                                   "'{1}':".format(file_version, self.filename))
+                raise RuntimeError(
+                    "Unsupported openPMD standard '{0}' in file " "'{1}':".format(
+                        file_version, self.filename
+                    )
+                )

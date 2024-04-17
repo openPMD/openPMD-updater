@@ -6,7 +6,7 @@ Authors: Axel Huebl
 License: ISC
 """
 
-from openpmd_updater.transforms.ITransform import ITransform
+from ..ITransform import ITransform
 import numpy as np
 
 
@@ -25,8 +25,7 @@ class GridUnit(ITransform):
     """
 
     """Name and description of the transformation"""
-    name = "gridUnit", \
-           "allow non-spatial gridSpacing in meshes"
+    name = "gridUnit", "allow non-spatial gridSpacing in meshes"
 
     """Minimum openPMD standard version that is supported by this transformation"""
     min_version = "1.0.0"
@@ -43,16 +42,24 @@ class GridUnit(ITransform):
         if not in_place:
             raise NotImplementedError("Only in-place transformation implemented!")
 
-        self.fb.cd(None)
-        basePath = "/data/"  # fixed in openPMD v1
-        meshes_path = self.fb.get_attr("meshesPath").decode()
+        try:
+            self.fb.cd(None)
+            basePath = "/data/"  # fixed in openPMD v1
+            meshes_path = self.fb.get_attr("meshesPath").decode()
+        except KeyError:
+            print(
+                "[Grid Unit transform] Input file has no 'meshesPath' attr, skipping transform! "
+            )
+            return
 
         iterations = self.fb.list_groups("/data/")
 
         for it in iterations:
             abs_meshes_path = "/data/" + str(it) + "/" + meshes_path
             #            vector/tensor                    and   scalar meshes
-            all_meshes = self.fb.list_groups(abs_meshes_path) + self.fb.list_data(abs_meshes_path)
+            all_meshes = self.fb.list_groups(abs_meshes_path) + self.fb.list_data(
+                abs_meshes_path
+            )
 
             self.fb.cd(abs_meshes_path)
 
@@ -61,13 +68,14 @@ class GridUnit(ITransform):
 
                 grid_ndim = len(self.fb.get_attr("gridSpacing", mesh))
 
-                new_grid_unit_SI = np.ones((grid_ndim, ), dtype=np.float64) * \
-                    old_grid_unit_SI
+                new_grid_unit_SI = (
+                    np.ones((grid_ndim,), dtype=np.float64) * old_grid_unit_SI
+                )
 
                 self.fb.add_attr("gridUnitSI", new_grid_unit_SI, mesh)
 
                 # openPMD 1.* dimensions were spatial (L)
-                grid_unit_dimension = np.zeros((grid_ndim * 7, ), dtype=np.float64)
+                grid_unit_dimension = np.zeros((grid_ndim * 7,), dtype=np.float64)
                 grid_unit_dimension[::7] = 1.0
 
                 self.fb.add_attr("gridUnitDimension", grid_unit_dimension, mesh)

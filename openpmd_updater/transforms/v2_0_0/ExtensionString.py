@@ -6,7 +6,7 @@ Authors: Axel Huebl
 License: ISC
 """
 
-from openpmd_updater.transforms.ITransform import ITransform
+from ..ITransform import ITransform
 import numpy as np
 
 
@@ -43,15 +43,12 @@ class ExtensionString(ITransform):
         self.fb.cd(None)
         extensionIDs = self.fb.get_attr("openPMDextension")
         self.fb.del_attr("openPMDextension")
-        
+
         enabled_extensions = []
         enabledExtMask = 0
         for extension, bitmask in ext_list.items():
             # This uses a bitmask to identify activated extensions
             if (bitmask & extensionIDs) == bitmask:
                 enabled_extensions.append(extension)
-        
-        self.fb.add_attr(
-            "openPMDextension",
-            np.string_(";".join(enabled_extensions))
-        )
+
+        self.fb.add_attr("openPMDextension", np.string_(";".join(enabled_extensions)))

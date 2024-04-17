@@ -6,7 +6,7 @@ Authors: Axel Huebl
 License: ISC
 """
 
-from openpmd_updater.transforms.ITransform import ITransform
+from ..ITransform import ITransform
 import numpy as np
 
 
@@ -17,7 +17,7 @@ class DataOrder(ITransform):
     The order of attributes arises naturally from flattened out memory layout.
     Regarding previously stored `dataOrder='F'` attributes, the update needs to
     invert such attributes.
-    
+
     Affects the *base standard* attributes:
         - `axisLabels`
         - `gridSpacing`
@@ -37,8 +37,10 @@ class DataOrder(ITransform):
     """
 
     """Name and description of the transformation"""
-    name = "dataOrder", \
-           "remove the dataOrder attribute and transform Fortran attributes"
+    name = (
+        "dataOrder",
+        "remove the dataOrder attribute and transform Fortran attributes",
+    )
 
     """Minimum openPMD standard version that is supported by this transformation"""
     min_version = "1.0.0"
@@ -58,7 +60,7 @@ class DataOrder(ITransform):
             "shape",
             # ED-PIC
             "fieldBoundary",
-            "particleBoundary"
+            "particleBoundary",
         ]
 
     def transform(self, in_place=True):
@@ -67,21 +69,29 @@ class DataOrder(ITransform):
             raise NotImplementedError("Only in-place transformation implemented!")
 
         self.fb.cd(None)
-        basePath = "/data/"  # fixed in openPMD v1
-        meshes_path = self.fb.get_attr("meshesPath").decode()
-        
+        try:
+            basePath = "/data/"  # fixed in openPMD v1
+            meshes_path = self.fb.get_attr("meshesPath").decode()
+        except KeyError:
+            print(
+                "[DataOrder transform] Input file has no 'meshesPath' attr, skipping transform! "
+            )
+            return
+
         iterations = self.fb.list_groups("/data/")
-        
+
         for it in iterations:
             abs_meshes_path = "/data/" + str(it) + "/" + meshes_path
             #            vector/tensor                    and   scalar meshes
-            all_meshes = self.fb.list_groups(abs_meshes_path) + self.fb.list_data(abs_meshes_path)
+            all_meshes = self.fb.list_groups(abs_meshes_path) + self.fb.list_data(
+                abs_meshes_path
+            )
 
             self.fb.cd(abs_meshes_path)
 
             for mesh in all_meshes:
                 old_data_order = self.fb.get_attr("dataOrder", mesh)
-                if old_data_order == b'F':
+                if old_data_order == b"F":
                     # mesh record attributes
                     for attr_name in self.affected_attrs:
                         if attr_name in self.fb.list_attrs(mesh):
