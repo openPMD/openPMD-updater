@@ -23,7 +23,7 @@ def parse_args():
     parser = argparse.ArgumentParser(
         description=help_str, formatter_class=argparse.ArgumentDefaultsHelpFormatter
     )
-    parser.add_argument("file", help="OpenPMD-series-filename", type=str)
+    parser.add_argument("file", help="openPMD-series-filename", type=str)
 
     parser.add_argument("-b", "--backup", help="create a backup", action="store_true")
     parser.add_argument(
