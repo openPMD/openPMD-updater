@@ -1,6 +1,6 @@
 # openPMD Updater
 
-[![Build Status `master`](https://img.shields.io/travis/openPMD/openPMD-updater/master.svg?label=master)](https://travis-ci.com/openPMD/openPMD-updater/branches)
+[![CI:ubuntu](https://github.com/openPMD/openPMD-updater/actions/workflows/ci.yml/badge.svg)](https://github.com/openPMD/openPMD-updater/actions/workflows/ci.yml)
 ![Supported Python Versions](https://img.shields.io/pypi/pyversions/openPMD-updater.svg)
 [![License](https://img.shields.io/badge/license-ISC-blue.svg)](https://opensource.org/licenses/ISC)
 
