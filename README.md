@@ -89,7 +89,4 @@ pytest
 
 # specific
 pytest tests/test_backend_h5.py
-
-# manual
-python tests/test_backend_h5.py
 ```
