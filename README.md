@@ -43,10 +43,10 @@ git clone https://github.com/openPMD/openPMD-updater.git
 cd openPMD-updater
 
 # install dependencies
-pip install -r requirements.txt
+pip install .
 
-# optional: append --user
-python setup.py install
+# with optional dependencies for testing
+pip install .[test]
 ```
 
 ## Usage
@@ -77,26 +77,19 @@ updater.update(target_version="2.0.0", in_place=True)
 
 ### Testing
 
+Additional packages need to be installed for the tests. To install them do:
 ```bash
-export PYTHONPATH=$(pwd):$PYTHONPATH
+pip install .[test]
+```
 
+Then one can run the tests as follows:
+```bash
 # all
-nosetests
+pytest
 
 # specific
-nosetests tests/test_backend_h5.py
+pytest tests/test_backend_h5.py
 
 # manual
 python tests/test_backend_h5.py
-```
-
-*note*: this changes your `example_files/1_1_0/structure.h5` files in-place.
-`git checkout` it for a reset or do a comparison:
-
-```bash
-h5diff -c example_files/1_1_0/structure.h5.bak example_files/1_1_0/structure.h5
-    attribute: <openPMD of </>> and <openPMD of </>>
-    35 differences found
-    Not comparable: <openPMDextension> is of class H5T_INTEGER and <openPMDextension> is of class H5T_STRING
-    # ...
 ```
