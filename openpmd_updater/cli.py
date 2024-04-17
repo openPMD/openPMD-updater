@@ -17,7 +17,7 @@ def parse_args():
     help_str = (
         "This is the openPMD updater HDF5 files.\n"
         + "It allows to update openPMD flavored files from openPMD standard {0} to {1}\n".format(
-            111, 222
+            "1.1.0", "2.0.0"
         )
     )
     parser = argparse.ArgumentParser(
